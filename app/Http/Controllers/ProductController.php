@@ -25,7 +25,6 @@ class ProductController extends Controller
                 return response()->json($custom, 404);
             }
         } else {
-
             $limit = $_GET['limit'] ?? 10;
             $data = Product::orderBy('id', 'DESC');
             if (isset($_GET['search'])) {

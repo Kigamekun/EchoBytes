@@ -19,6 +19,10 @@ use App\Http\Controllers\{UserController,TransactionController, FoodController, 
 Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
+Route::get('/getFile/{folder}/{filename}', function ($folder,$filename) {
+    return response()->file(storage_path('app/public/').$folder.'/'.$filename);
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -66,7 +70,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('transaction')->group(function () {
         Route::get('/', [TransactionController::class,'index'])->name('transaction.index');
-        Route::post('/purchase-food/{id}', [TransactionController::class,'purchaseFood'])->name('transaction.purchase-food');
+        Route::post('/purchase-food', [TransactionController::class,'purchaseFood'])->name('transaction.purchase-food');
+        Route::post('/change-status/{id}', [TransactionController::class,'changeStatus'])->name('transaction.change-status');
         Route::post('/store', [TransactionController::class,'store'])->name('transaction.store');
         Route::put('/update/{id}', [TransactionController::class,'update'])->name('transaction.update');
         Route::delete('/delete/{id}', [TransactionController::class,'destroy'])->name('transaction.delete');
